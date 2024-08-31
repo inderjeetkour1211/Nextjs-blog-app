@@ -2,32 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.blurred {
+  filter: blur(8px);
+}
+html {
+  scroll-behavior: smooth;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.bg-gray-400 {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: transparent;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header.scrolled {
+  background-color: white;
+  color: black;
+}
+
+header.scrolled img {
+  filter: brightness(0);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+#menu-toggle:checked ~ label #menu-icon {
+  display: none;
+}
+
+#menu-toggle:checked ~ label #close-icon {
+  display: block;
+}
+#mobile-menu {
+  display: none;
+  transform: translateY(100%);
+  transition: transform 0.7s ease-in-out;
+}
+#mobile-menu.open {
+  transform: translateY(0);
+}
+#menu-toggle:checked ~ #mobile-menu {
+  transform: translateY(0);
+  transition: transform 0.7s ease-in-out;
+}
+#menu-toggle:not(:checked) ~ #mobile-menu {
+  transform: translateY(100%);
+  transition: transform 0.7s ease-in-out;
+}
+.h-screen-90 {
+  height: calc(100vh - 30vh);
+}
+#close-icon {
+  position: absolute;
+  top: 70%;
+  transform: translateY(77%);
+  right: 25px;
+}
+@media (max-width: 768px) {
+  #mobile-menu {
+    padding-left: 32px;
+  }
+}
+@media (max-width: 860px) {
+  #mobile-menu {
+    display: none;
+  }
+  #menu-toggle:checked ~ #mobile-menu {
+    display: block;
+  }
+}
+@media (min-width: 900px) {
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:flex {
+    display: flex;
+  }
+}
+
+@media (max-width: 860px) {
+  .md\:hidden {
+    display: block;
+  }
+
+  .md\:flex {
+    display: none;
   }
 }
